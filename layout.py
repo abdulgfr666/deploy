@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import requests
+import unicodedata
 
 st.set_page_config(
     page_title="Dashboard Sales Report",
@@ -8,6 +10,43 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+# ==========================
+# PETA
+# ==========================
+def normalize(name: str) -> str:
+    name = str(name).strip().lower()
+    name = unicodedata.normalize('NFKD', name).encode('ascii', 'ignore').decode()
+    name = name.replace('di ', '').replace('dki ', '').replace('.', '')
+    return name.strip()
+
+ALIAS = {
+    'yogyakarta': 'yogyakarta',
+    'jakarta raya': 'jakarta',
+    'jakarta': 'jakarta',
+    'kepulauan bangka belitung': 'bangka belitung',
+    'bangka belitung': 'bangka belitung',
+    'kepulauan riau': 'kepulauan riau',
+}
+
+def alias_key(name: str) -> str:
+    n = normalize(name)
+    return ALIAS.get(n, n)
+
+@st.cache_data
+def load_geojson():
+    url = "https://raw.githubusercontent.com/superpikar/indonesia-geojson/master/indonesia-province-simple.json"
+    resp = requests.get(url, timeout=30)
+    resp.raise_for_status()
+    geojson_data = resp.json()
+    
+    for feature in geojson_data['features']:
+        nama_asli_geojson = feature['properties']['Propinsi']
+        feature['properties']['match_key'] = alias_key(nama_asli_geojson)
+        
+    return geojson_data
+
+indo_geojson = load_geojson()
 
 # ==========================
 # CSS
@@ -110,7 +149,24 @@ monthly_sales = (
       .reset_index()
 )
 
+def format_rupiah(value):
+    if value >= 1_000_000_000:
+        return f"Rp {value/1_000_000_000:.2f}B"
+    elif value >= 1_000_000:
+        return f"Rp {value/1_000_000:.2f}M"
+    else:
+        return f"Rp {value:,.0f}"
+
+
+
 monthly_sales['order_date'] = monthly_sales['order_date'].astype(str)
+
+
+df['match_key'] = df['customer_province'].apply(alias_key)
+revenue_provinsi = df.groupby(['customer_province', 'match_key'])['revenue'].sum().reset_index()
+revenue_provinsi['Total Revenue'] = revenue_provinsi['revenue'].apply(format_rupiah)
+
+
 
 # ==========================
 # SALES SUMMARY
@@ -119,13 +175,6 @@ monthly_sales['order_date'] = monthly_sales['order_date'].astype(str)
 # Revenue
 total_revenue = (df['final_price'] * df['quantity']).sum()
 
-def format_rupiah(value):
-    if value >= 1_000_000_000:
-        return f"Rp {value/1_000_000_000:.2f}B"
-    elif value >= 1_000_000:
-        return f"Rp {value/1_000_000:.2f}M"
-    else:
-        return f"Rp {value:,.0f}"
 
 # Total Order
 total_orders = df['order_id'].nunique()
@@ -222,6 +271,31 @@ fig_return.update_layout(
     )
 )
 
+# Map Chart Revenue per Provinsi
+fig_map = px.choropleth_mapbox(
+    revenue_provinsi,
+    geojson=indo_geojson,
+    locations='match_key',
+    featureidkey='properties.match_key',
+    color='revenue',
+    color_continuous_scale="Blues",
+    mapbox_style="carto-positron",
+    zoom=3.0, 
+    center={"lat": -2.0, "lon": 118.0},
+    opacity=0.8,
+    hover_name='customer_province',
+    hover_data={'revenue': False, 'match_key': False, 'Total Revenue': True} 
+)
+
+fig_map.update_layout(
+    height=400, 
+    margin={"r":0,"t":0,"l":0,"b":0},
+    paper_bgcolor="white",
+    plot_bgcolor="white",
+    coloraxis_showscale=False,
+    dragmode=False 
+)
+
 
 # ==========================
 # HEADER
@@ -266,7 +340,11 @@ with col1:
 
         st.markdown("### 🌍 Revenue per Province")
 
-        st.empty()
+        st.plotly_chart(
+            fig_map, 
+            use_container_width=True, 
+            config={"displayModeBar": False, "scrollZoom": True} 
+)
 
 # =====================================
 # COLUMN 2

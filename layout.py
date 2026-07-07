@@ -433,7 +433,7 @@ fig_map = px.choropleth_mapbox(
 )
 
 fig_map.update_layout(
-    height=200, 
+    height=135, 
     margin={"r":0,"t":0,"l":0,"b":0},
     paper_bgcolor="white",
     plot_bgcolor="white",

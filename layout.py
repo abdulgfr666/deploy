@@ -298,6 +298,7 @@ revenue_category = (
     .reset_index()
     .sort_values("revenue", ascending=True)
 )
+revenue_category['revenue_label'] = revenue_category['revenue'].apply(format_rupiah)
 
 # ==========================
 # CHART
@@ -380,11 +381,10 @@ fig_category = px.bar(
     orientation="h",
     color="revenue",
     color_continuous_scale="Blues",
-    text="revenue"
+    text="revenue_label"
 )
 
 fig_category.update_traces(
-    texttemplate="%{text:.2s}",
     textposition="outside"
 )
 

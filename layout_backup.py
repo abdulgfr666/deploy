@@ -52,7 +52,6 @@ indo_geojson = load_geojson()
 # CSS
 # ==========================
 st.markdown("""
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 
 /* SEMBUNYIKAN TOOLBAR BAWAAN STREAMLIT (Deploy, menu, dsb) */
@@ -548,27 +547,27 @@ with row1_left:
     # ---------- Sales Summary ----------
     with st.container(key="summary_card"):
 
-        st.markdown("### <i class='fa-solid fa-chart-pie' style='color:#1B2559; margin-right:8px;'></i> Sales Summary", unsafe_allow_html=True)
+        st.markdown("### 📊 Sales Summary")
 
         st.markdown(f"""
         <div class="summary-grid">
             <div class="summary-box">
-                <div class="summary-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                <div class="summary-icon">📊</div>
                 <div class="summary-value">{format_rupiah(total_revenue)}</div>
                 <div class="summary-label">Total Revenue</div>
             </div>
             <div class="summary-box">
-                <div class="summary-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                <div class="summary-icon">📄</div>
                 <div class="summary-value">{total_orders:,}</div>
                 <div class="summary-label">Total Order</div>
             </div>
             <div class="summary-box">
-                <div class="summary-icon"><i class="fa-solid fa-star"></i></div>
+                <div class="summary-icon">⭐</div>
                 <div class="summary-value">{avg_rating:.2f}</div>
                 <div class="summary-label">Average Rating</div>
             </div>
             <div class="summary-box">
-                <div class="summary-icon"><i class="fa-solid fa-box-open"></i></div>
+                <div class="summary-icon">📦</div>
                 <div class="summary-value">{return_rate:.2f}%</div>
                 <div class="summary-label">Return Rate</div>
             </div>
@@ -580,7 +579,7 @@ with row1_right:
     # ---------- Trend ----------
     with st.container(key="trend_card"):
 
-        st.markdown("### <i class='fa-solid fa-chart-line' style='color:#1B2559; margin-right:8px;'></i> Tren Penjualan", unsafe_allow_html=True)
+        st.markdown("### 📈 Tren Penjualan")
 
         st.plotly_chart(
             fig,
@@ -601,7 +600,7 @@ with row2_left:
     # ---------- Revenue Province ----------
     with st.container(key="row2_left_card"):
 
-        st.markdown("### <i class='fa-solid fa-earth-asia' style='color:#1B2559; margin-right:8px;'></i> Revenue per Province", unsafe_allow_html=True)
+        st.markdown("### 🌍 Revenue per Province")
 
         st.plotly_chart(
             fig_map, 
@@ -616,7 +615,7 @@ with row2_left:
 
         html_str = ""
         html_str += "<div style='margin-bottom: 0px;'>"
-        html_str += "<div style='font-size: 16px; font-weight: 700; color: #001C3F; margin: 0; padding: 0;'><i class='fa-solid fa-trophy' style='color:#F59E0B; margin-right:8px;'></i> Top 10 Subproduct</div>"
+        html_str += "<div style='font-size: 16px; font-weight: 700; color: #001C3F; margin: 0; padding: 0;'>Top 10 Subproduct</div>"
         html_str += "<div style='font-size: 12px; color: #6D849C; margin-top: 2px;'>by Revenue &middot; 2024</div>"
         html_str += "</div>"
         html_str += "<div class='top-product-list'>"
@@ -643,7 +642,7 @@ with row2_right:
     # ---------- Revenue Category ----------
     with st.container(key="row2_middle_card"):
 
-        st.markdown("### <i class='fa-solid fa-bag-shopping' style='color:#1B2559; margin-right:8px;'></i> Revenue per Category", unsafe_allow_html=True)
+        st.markdown("### 🛍 Revenue per Category")
 
         st.plotly_chart(
             fig_category,
@@ -656,7 +655,7 @@ with row2_right:
     # ---------- Return ----------
     with st.container(key="row2_right_card"):
 
-        st.markdown("### <i class='fa-solid fa-rotate-left' style='color:#1B2559; margin-right:8px;'></i> Return Analysis", unsafe_allow_html=True)
+        st.markdown("### ↩️ Return Analysis")
 
         st.plotly_chart(
             fig_return,

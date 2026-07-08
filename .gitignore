@@ -1,0 +1,4 @@
+*_backup.py
+public_backup/
+__pycache__/
+*.pyc

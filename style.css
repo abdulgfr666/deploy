@@ -1,0 +1,153 @@
+body {
+    margin: 0;
+    font-family: "Source Sans Pro", sans-serif;
+    background: #EAF5FF;
+}
+
+.block-container {
+    padding: 1.2rem 2rem;
+}
+
+.row {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 3px 10px rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.card h3 {
+    font-size: 15px;
+    margin: 0 0 10px 0;
+    color: black;
+}
+
+.chart-container {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+}
+
+/* ================= SALES SUMMARY BOXES ================= */
+.summary-grid {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    height: 100%;
+}
+
+.summary-box {
+    flex: 1;
+    background: #DCEAFB;
+    border-radius: 14px;
+    padding: 14px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.summary-icon {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #1B2559;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.summary-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    line-height: 1.1;
+}
+
+.summary-label {
+    font-size: 12.5px;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* ================= TOP 10 LIST ================= */
+.top-product-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-top: 8px;
+}
+
+.top-product-list::-webkit-scrollbar {
+    width: 5px;
+}
+.top-product-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+.top-product-list::-webkit-scrollbar-thumb {
+    background: #90B4EE;
+    border-radius: 10px;
+}
+
+.top-product-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #F0F4F8;
+}
+.top-product-item:last-child {
+    border-bottom: none;
+}
+
+.top-product-rank {
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background-color: #215299;
+    color: white;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 12px;
+    margin-right: 12px;
+}
+
+.top-product-details {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    flex: 1;
+}
+
+.top-product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #001C3F;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.top-product-rev {
+    font-size: 11px;
+    color: #6D849C;
+}
